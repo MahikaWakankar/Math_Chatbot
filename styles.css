@@ -1,0 +1,137 @@
+/* General Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+    background-image: url("maths.jpg");
+    background-size: cover;
+    height: 100vh; /* Ensure the body takes the full viewport height */
+    margin: 0; /* Remove default margin */
+}
+
+.center-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    height: 100%; /* Make the container take the full height of the body */
+    text-align: center;
+    color: white;
+}
+
+h1 {
+    font-size: 2em;
+    color: white;
+    margin-bottom: 20px 0; /* Space below the heading */
+    opacity: 0; /* Start hidden */
+    transform: translateY(-50px); /* Start above */
+    animation: swoosh 0.8s forwards; /* Apply animation */
+
+}
+
+/* Button Styling */
+.button-container {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    justify-content: center;
+    align-items: center; /* Center buttons horizontally */
+    gap: 15px;
+    margin-top: 100px; /* Space above the buttons */
+}
+
+.btn {
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 30px;
+    background-color: rgba(80, 146, 216, 0.4);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    opacity: 0; /* Start hidden */
+    transform: translateY(-20px); /* Start above */
+    animation: swoosh 0.8s forwards; /* Apply animation */
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 30px;
+    background-color: rgba(80, 146, 216, 0.4);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+button:hover {
+    background-color: rgb(173, 216, 230);
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+/* Add a delay for buttons */
+.btn.swoosh:nth-child(1) { animation-delay: 0.2s; }
+.btn.swoosh:nth-child(2) { animation-delay: 0.4s; }
+.btn.swoosh:nth-child(3) { animation-delay: 0.6s; }
+.btn.swoosh:nth-child(4) { animation-delay: 0.8s; }
+
+/* Animation for swoosh effect */
+@keyframes swoosh {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Input Box Styling */
+.input-box {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#userInput {
+    padding: 10px;
+    font-size: 16px;
+    width: 50%;
+    border-radius: 5px;
+}
+
+
+#submitBtn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 10px;
+    background-color:rgba(80, 146, 216, 0.4) ;
+    color: white;
+    cursor: pointer;
+}
+
+#submitBtn:hover {
+    background-color: rgb(173, 216, 230);
+}
+
+/* Chat Box Styling */
+#chat-box {
+    margin-top: 20px;
+    max-height: 400px;
+    overflow-y: scroll;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.user {
+    text-align: right;
+    color: #007BFF;
+}
+
+.bot {
+    text-align: left;
+    color: #28a745;
+}

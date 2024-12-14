@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trigonometry</title>
+    <link rel="stylesheet" href="static/styles.css"> <!-- Link to your CSS file -->
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("static/maths.jpg"); /* Same background image as index.html */
+            background-size: cover;
+            height: 100vh; /* Full height */
+            margin: 0; /* Remove default margin */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Space between header and input box */
+            color: white;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 20px 0; /* Space above and below the heading */
+        }
+
+        .input-box {
+        display: flex;
+        justify-content: center; /* Center input and button */
+        align-items: center; /* Center vertically */
+        margin-top: auto; /* Push to the bottom */
+        margin-bottom: 50px; /* Space from the bottom */
+    }
+
+    #expression {
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 6px; /* Rounded corners */
+        border: 1px solid #ddd; /* Border color */
+        width: 300px; /* Width of the input box */
+        margin-right: 10px; /* Space between input and button */
+        background-color: rgba(255, 255, 255); /* Semi-transparent background */
+        color: #007BFF; /* Text color */
+    }
+    #expression::placeholder {
+    color: #77b2f0;
+}
+
+
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 10px; /* Rounded corners */
+        border: none; /* No border */
+        background-color: rgb(80, 146, 216); /* Button background */
+        color: white; /* Button text color */
+        cursor: pointer; /* Pointer cursor on hover */
+        transition: background-color 0.3s; /* Smooth background color transition */
+    }
+
+    button:hover {
+        background-color: rgb(173, 216, 230); /* Change color on hover */
+    }
+
+    .output-box {
+        background-color: rgba(255, 255, 255, 0.0); /* Semi-transparent background */
+        border-radius: 10px; /* Rounded corners */
+        padding: 20px; /* Padding inside the box */
+        margin-top: 50px; /* Space above the output box */
+        margin-bottom: 30px ;
+        min-height: 200px; /* Minimum height for the output box */
+        display: flex;
+        align-items: center; /* Center content vertically */
+        justify-content: center; /* Center content horizontally */
+        color: white; /* Text color */
+        font-size: 18px; /* Font size for the output */
+    }
+
+    #triangle-diagram {
+        display: none; /* Initially hidden */
+        margin-top: 20px; /* Space above the diagram */
+    }
+
+    </style>
+</head>
+<body>
+    <br>
+    <br>
+    <h1>Trigonometry</h1>
+    <form id="trigonometry-form"> <!-- Added form element -->
+        <div class="input-box">
+            <input type="text" id="expression" name="expression" placeholder="e.g, sin(x)" required>
+            <button type="submit" id="submitBtn">Calculate</button>
+        </div>
+    </form>
+
+ 
+    <div class="output-box" id="result">
+        <!-- Result will be displayed here -->
+    </div>
+    <div id="working-steps"></div>
+    <img id="triangle-diagram" src="" alt="Triangle Diagram">
+
+    <script>
+        const form = document.getElementById('trigonometry-form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const expression = document.getElementById('expression').value;
+    
+            try {
+                // Make a POST request to the /calculate_trigonometry endpoint with the expression
+                const response = await fetch('/calculate_trigonometry', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ expression })  // Sending the expression as a JSON payload
+                });
+    
+                // Parse the response from the backend
+                const data = await response.json();
+    
+                // Display the result in the <div> tag with id "result"
+                if (data.response) {
+                    document.getElementById('result').innerText = data.response;
+    
+                    // Only display working steps if they exist
+                    if (data.working) {
+                        document.getElementById('working-steps').innerHTML = data.working;
+                    } else {
+                        document.getElementById('working-steps').innerHTML = ''; // Clear if no working steps
+                    }
+    
+                    // Show a triangle diagram based on the expression
+                    document.getElementById('triangle-diagram').src = 'static/triangle_diagram.png'; // Update with your diagram path
+                    document.getElementById('triangle-diagram').style.display = 'block';
+                } else {
+                    document.getElementById('result').innerText = 'Error: Unable to calculate the expression.';
+                }
+    
+            } catch (error) {
+                // Handle any errors in the request
+                document.getElementById('result').innerText = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>

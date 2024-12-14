@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simplify Expression</title>
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("static/maths.jpg"); /* Same background image as index.html */
+            background-size: cover;
+            height: 100vh; /* Full height */
+            margin: 0; /* Remove default margin */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+            color: white;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px; /* Space below the heading */
+            opacity: 0; /* Start hidden */
+            transform: translateY(-50px); /* Start above */
+            animation: swoosh 0.8s forwards; /* Apply animation */
+        }
+
+        /* Input Box Styling */
+        .input-box {
+            display: flex;
+            justify-content: center; /* Center input and button */
+            align-items: center; /* Center vertically */
+            margin-top: 20px; /* Space above the input box */
+        }
+
+        #expression {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 6px; /* Rounded corners */
+            border: 1px solid #ddd; /* Border color */
+            width: 300px; /* Width of the input box */
+            margin-right: 10px; /* Space between input and button */
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+            color: #007BFF; /* Text color */
+        }
+
+        #expression::placeholder {
+            color: #77b2f0; /* Placeholder text color */
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 10px; /* Rounded corners */
+            border: none; /* No border */
+            background-color: rgb(80, 146, 216); /* Button background */
+            color: white; /* Button text color */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s; /* Smooth background color transition */
+        }
+
+        button:hover {
+            background-color: rgb(173, 216, 230); /* Change color on hover */
+        }
+
+        /* Output Box Styling */
+        .output-box {
+            background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+            border-radius: 10px; /* Rounded corners */
+            padding: 20px; /* Padding inside the box */
+            margin-top: 50px; /* Space above the output box */
+            min-height: 100px; /* Minimum height for the output box */
+            display: flex;
+            align-items: center; /* Center content vertically */
+            justify-content: center; /* Center content horizontally */
+            color: white; /* Text color */
+            font-size: 18px; /* Font size for the output */
+        }
+
+        /* Animation for swoosh effect */
+        @keyframes swoosh {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+
+</head>
+<body>
+    <h1>Simplify Expression</h1>
+    <form id="simplify-form">
+        <input type="text" id="expression" name="expression" placeholder="e.g., (x**2 - 1)/(x - 1)" required>
+        <button type="submit">Simplify</button>
+    </form>
+    <p id="result"></p>
+
+    <script>
+        const form = document.getElementById('simplify-form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();  // Prevent form submission and page reload
+            const expression = document.getElementById('expression').value;  // Get user input
+
+            try {
+                // Send the expression to the backend as JSON
+                const response = await fetch('/calculate_simplify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ expression })  // Send the expression as JSON
+                });
+
+                // Parse the JSON response from the backend
+                const data = await response.json();
+
+                // Display the simplified result or error message
+                document.getElementById('result').innerText = data.response || 'Error: Unable to simplify the expression.';
+
+            } catch (error) {
+                // Handle any network or other errors
+                document.getElementById('result').innerText = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>
